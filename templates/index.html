@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Flash - Interactive Syllable Reading</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Load a beautiful Arabic font -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo-img">
+                <h1>مركز أول للعربية</h1>
+            </div>
+            <div class="header-actions" style="display: flex; gap: 8px;">
+                <button id="theme-toggle-btn" class="icon-btn" aria-label="Toggle Theme">
+                    <i data-lucide="sun"></i>
+                </button>
+                <button id="home-btn" class="icon-btn hidden" aria-label="Home">
+                    <i data-lucide="home"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main>
+            <!-- View 1: Chapter Select -->
+            <section id="view-chapter-select" class="view active">
+                <div class="view-header">
+                    <h2>Select a Surah</h2>
+                    <p>Juz Amma</p>
+                </div>
+                <!-- Loading State -->
+                <div id="loading-surahs" class="loading-state">
+                    <i data-lucide="loader-2" class="spin"></i>
+                    <p>Loading Surahs...</p>
+                </div>
+                <div id="surah-list" class="surah-grid">
+                    <!-- Surahs injected here by JS -->
+                </div>
+            </section>
+
+            <!-- View 2: Settings -->
+            <section id="view-settings" class="view hidden">
+                <div class="view-header">
+                    <h2>Settings for <span id="selected-surah-name"></span></h2>
+                    <p>Configure your reading pace</p>
+                </div>
+
+                <div class="settings-card">
+                    <div class="setting-group">
+                        <label>Reading Mode</label>
+                        <div class="reading-mode-options" style="display: flex; gap: 12px; margin-bottom: 24px;">
+                            <button class="mode-btn active" data-mode="syllable">Syllable</button>
+                            <button class="mode-btn" data-mode="word">Word</button>
+                            <button class="mode-btn" data-mode="verse">Verse</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <label>Flashcard Movement Timing</label>
+                        <div class="timing-options">
+                            <button class="timing-btn" data-time="0.5">0.5s</button>
+                            <button class="timing-btn" data-time="1">1s</button>
+                            <button class="timing-btn" data-time="2">2s</button>
+                            <button class="timing-btn active" data-time="3">3s</button>
+                            <button class="timing-btn" data-time="4">4s</button>
+                            <button class="timing-btn" data-time="5">5s</button>
+                        </div>
+                    </div>
+
+                    <button id="start-reading-btn" class="primary-btn">Start Reading</button>
+                </div>
+            </section>
+
+            <!-- View 3: Flashcards -->
+            <section id="view-flashcards" class="view hidden">
+                <!-- Fetching specific surah state -->
+                <div id="loading-ayahs" class="loading-state hidden">
+                    <i data-lucide="loader-2" class="spin"></i>
+                    <p>Preparing Verses...</p>
+                </div>
+
+                <div id="flashcard-container" class="hidden">
+                    <div class="flashcard-header">
+                        <div class="stats">
+                            <span id="current-verse-indicator">Ayah 1</span>
+                        </div>
+                        <div class="controls">
+                            <!-- Play/Pause -->
+                            <button id="play-pause-btn" class="icon-btn control-btn">
+                                <i data-lucide="pause"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flashcard-body">
+                        <!-- Arabic Text Display -->
+                        <div id="flashcard-text" class="arabic-text">
+                            <!-- Single syllable/word displayed here -->
+                        </div>
+                    </div>
+
+                    <div class="flashcard-footer">
+                        <button id="prev-card-btn" class="icon-btn control-btn">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <!-- Progress bar -->
+                        <div class="progress-bar-container">
+                            <div id="progress-bar-fill" class="progress-fill"></div>
+                        </div>
+                        <button id="next-card-btn" class="icon-btn control-btn">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
