@@ -366,13 +366,22 @@ function moveToPrevCard() {
 }
 
 function performNextFlashcardTick() {
+    if (isPracticeMode) {
+        scoreTotalCount++;
+        scoreTotal.textContent = scoreTotalCount;
+    }
+
     if (moveToNextCard()) {
         updateFlashcardDisplay();
         resetProgressTimer();
     } else {
-        // Finished the Surah
         pause();
-        flashcardText.textContent = "End of Surah";
+        practiceActions.classList.add('hidden');
+        if (isPracticeMode) {
+            flashcardText.textContent = `Done! Score: ${scoreCorrectCount}/${scoreTotalCount}`;
+        } else {
+            flashcardText.textContent = "End of Surah";
+        }
     }
 }
 
