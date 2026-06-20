@@ -47,6 +47,31 @@
                 <div id="surah-list" class="surah-grid">
                     <!-- Surahs injected here by JS -->
                 </div>
+
+                <!-- Practice Section -->
+                <div class="practice-section">
+                    <div class="practice-header">
+                        <h3>Letter Practice</h3>
+                        <p>Practice individual words with harakat</p>
+                    </div>
+                    <div class="practice-grid">
+                        <button class="practice-card" data-letters="2">
+                            <span class="practice-number">2</span>
+                            <span class="practice-label">Two Letters</span>
+                            <span class="practice-desc">حرفان</span>
+                        </button>
+                        <button class="practice-card" data-letters="3">
+                            <span class="practice-number">3</span>
+                            <span class="practice-label">Three Letters</span>
+                            <span class="practice-desc">ثلاثة حروف</span>
+                        </button>
+                        <button class="practice-card" data-letters="4">
+                            <span class="practice-number">4</span>
+                            <span class="practice-label">Four Letters</span>
+                            <span class="practice-desc">أربعة حروف</span>
+                        </button>
+                    </div>
+                </div>
             </section>
 
             <!-- View 2: Settings -->
@@ -77,6 +102,11 @@
                             <button class="timing-btn" data-time="5">5s</button>
                             <button class="timing-btn" data-time="15">15s</button>
                         </div>
+                    </div>
+
+                    <div id="practice-timing-note" class="timing-note hidden">
+                        <i data-lucide="clock"></i>
+                        <span>Practice mode: <strong>+20s</strong> added to selected timing</span>
                     </div>
 
                     <button id="start-reading-btn" class="primary-btn">Start Reading</button>

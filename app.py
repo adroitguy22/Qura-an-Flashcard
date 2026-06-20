@@ -21,6 +21,52 @@ def get_surahs():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 
+PRACTICE_WORDS = {
+    2: [
+        "فِي", "مِن", "عَنْ", "قَدْ", "هَلْ", "بَلْ",
+        "لَوْ", "كَمْ", "لَنْ", "مَا", "لَا", "إِنْ", "أَنْ"
+    ],
+    3: [
+        "كَتَبَ", "قَرَأَ", "ذَهَبَ", "جَلَسَ", "عَلِمَ",
+        "شَرِبَ", "أَكَلَ", "لَعِبَ", "سَمِعَ", "خَرَجَ",
+        "رَجَعَ", "دَخَلَ", "نَظَرَ", "حَمَلَ", "غَسَلَ"
+    ],
+    4: [
+        "مَسْجِد", "مَكْتَب", "مَطْبَخ", "مَنْزِل", "دَفْتَر",
+        "مُسْلِم", "مَجْلِس", "مَشْرَب", "مَخْرَج", "مَدْخَل",
+        "مَرْكَز", "مَلْعَب", "مُؤْمِن"
+    ]
+}
+
+@app.route('/api/practice/<int:letter_count>')
+def get_practice(letter_count):
+    if letter_count not in PRACTICE_WORDS:
+        return jsonify({'success': False, 'error': 'Invalid letter count'}), 400
+    try:
+        words = PRACTICE_WORDS[letter_count]
+        processed_words = []
+        for word in words:
+            syllables = break_into_syllables(word)
+            processed_words.append({
+                'word': word,
+                'syllables': syllables
+            })
+        return jsonify({
+            'success': True,
+            'data': {
+                'name': f'تمرين {letter_count} حروف',
+                'englishName': f'{letter_count}-Letter Practice',
+                'letterCount': letter_count,
+                'ayahs': [{
+                    'number': 1,
+                    'words': processed_words,
+                    'text': ' '.join(words)
+                }]
+            }
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 @app.route('/api/surah/<int:surah_id>')
 def get_surah(surah_id):
     try:

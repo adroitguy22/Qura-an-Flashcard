@@ -20,6 +20,8 @@ const progressFill = document.getElementById('progress-bar-fill');
 const timingBtns = document.querySelectorAll('.timing-btn');
 const modeBtns = document.querySelectorAll('.mode-btn');
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
+const practiceTimingNote = document.getElementById('practice-timing-note');
+const practiceCards = document.querySelectorAll('.practice-card');
 
 // State
 let allSurahs = [];
@@ -27,6 +29,8 @@ let currentSurahId = null;
 let currentSurahData = null;
 let currentTimingS = 3;
 let currentReadingMode = 'syllable';
+let isPracticeMode = false;
+let practiceLetterCount = null;
 
 // Flashcard State
 let isPlaying = false;
@@ -76,6 +80,10 @@ async function init() {
     playPauseBtn.addEventListener('click', togglePlayPause);
     nextCardBtn.addEventListener('click', forceNextCard);
     prevCardBtn.addEventListener('click', forcePrevCard);
+
+    practiceCards.forEach(card => {
+        card.addEventListener('click', () => openPractice(parseInt(card.dataset.letters)));
+    });
 
     await fetchSurahs();
 }
@@ -137,6 +145,18 @@ function renderSurahList() {
 function openSettings(surah) {
     currentSurahId = surah.number;
     selectedSurahNameSpan.textContent = surah.englishName;
+    isPracticeMode = false;
+    practiceTimingNote.classList.add('hidden');
+    switchView(viewSettings);
+}
+
+function openPractice(letterCount) {
+    isPracticeMode = true;
+    practiceLetterCount = letterCount;
+    currentSurahId = letterCount;
+    selectedSurahNameSpan.textContent = `${letterCount}-Letter Practice`;
+    practiceTimingNote.classList.remove('hidden');
+    lucide.createIcons();
     switchView(viewSettings);
 }
 
@@ -150,7 +170,10 @@ async function startFlashcards() {
     stopFlashcardTimer();
 
     try {
-        const res = await fetch(`/api/surah/${currentSurahId}`);
+        const url = isPracticeMode
+            ? `/api/practice/${currentSurahId}`
+            : `/api/surah/${currentSurahId}`;
+        const res = await fetch(url);
         const json = await res.json();
 
         if (json.success) {
@@ -362,7 +385,8 @@ function stopFlashcardTimer() {
 function resetProgressTimer() {
     stopFlashcardTimer();
 
-    const durationMs = currentTimingS * 1000;
+    const effectiveTiming = isPracticeMode ? currentTimingS + 20 : currentTimingS;
+    const durationMs = effectiveTiming * 1000;
     progressStartTime = Date.now();
 
     progressFill.style.width = '0%';
