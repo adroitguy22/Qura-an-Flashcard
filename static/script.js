@@ -21,6 +21,12 @@ const timingBtns = document.querySelectorAll('.timing-btn');
 const modeBtns = document.querySelectorAll('.mode-btn');
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
 const practiceCards = document.querySelectorAll('.practice-card');
+const scoreDisplay = document.getElementById('score-display');
+const scoreCorrect = document.getElementById('score-correct');
+const scoreTotal = document.getElementById('score-total');
+const practiceActions = document.getElementById('practice-actions');
+const btnCorrect = document.getElementById('btn-correct');
+const btnWrong = document.getElementById('btn-wrong');
 
 // State
 let allSurahs = [];
@@ -39,6 +45,10 @@ let currentSyllableIndex = 0;
 let flashcardTimer = null;
 let progressStartTime = 0;
 let progressInterval = null;
+
+// Score State (practice mode only)
+let scoreCorrectCount = 0;
+let scoreTotalCount = 0;
 
 // Initialize
 async function init() {
@@ -84,7 +94,33 @@ async function init() {
         card.addEventListener('click', () => openPractice(parseInt(card.dataset.letters)));
     });
 
+    btnCorrect.addEventListener('click', () => handleScore(true));
+    btnWrong.addEventListener('click', () => handleScore(false));
+
     await fetchSurahs();
+}
+
+function handleScore(isCorrect) {
+    if (!isPracticeMode || !currentSurahData) return;
+
+    scoreTotalCount++;
+    if (isCorrect) scoreCorrectCount++;
+
+    scoreCorrect.textContent = scoreCorrectCount;
+    scoreTotal.textContent = scoreTotalCount;
+
+    // Pause auto-advance, let user click next manually
+    pause();
+
+    if (!moveToNextCard()) {
+        scoreCorrect.textContent = scoreCorrectCount;
+        scoreTotal.textContent = scoreTotalCount;
+        flashcardText.textContent = `Done! Score: ${scoreCorrectCount}/${scoreTotalCount}`;
+        practiceActions.classList.add('hidden');
+        return;
+    }
+
+    updateFlashcardDisplay();
 }
 
 // Navigation
@@ -104,6 +140,8 @@ function switchView(viewElement) {
 
 function goHome() {
     stopFlashcardTimer();
+    scoreDisplay.classList.add('hidden');
+    practiceActions.classList.add('hidden');
     switchView(viewChapterSelect);
 }
 
@@ -177,6 +215,18 @@ async function startFlashcards() {
             currentAyahIndex = 0;
             currentWordIndex = 0;
             currentSyllableIndex = 0;
+            scoreCorrectCount = 0;
+            scoreTotalCount = 0;
+
+            if (isPracticeMode) {
+                scoreDisplay.classList.remove('hidden');
+                practiceActions.classList.remove('hidden');
+                scoreCorrect.textContent = '0';
+                scoreTotal.textContent = '0';
+            } else {
+                scoreDisplay.classList.add('hidden');
+                practiceActions.classList.add('hidden');
+            }
 
             loadingAyahs.classList.add('hidden');
             flashcardContainer.classList.remove('hidden');

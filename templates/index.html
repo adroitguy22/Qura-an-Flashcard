@@ -121,6 +121,11 @@
                         <div class="stats">
                             <span id="current-verse-indicator">Ayah 1</span>
                         </div>
+                        <div id="score-display" class="score-display hidden">
+                            <span id="score-correct" class="score-correct">0</span>
+                            <span class="score-separator">/</span>
+                            <span id="score-total" class="score-total">0</span>
+                        </div>
                         <div class="controls">
                             <!-- Play/Pause -->
                             <button id="play-pause-btn" class="icon-btn control-btn">
@@ -134,6 +139,15 @@
                         <div id="flashcard-text" class="arabic-text">
                             <!-- Single syllable/word displayed here -->
                         </div>
+                    </div>
+
+                    <div id="practice-actions" class="practice-actions hidden">
+                        <button id="btn-wrong" class="action-btn wrong-btn">
+                            <i data-lucide="x"></i> Wrong
+                        </button>
+                        <button id="btn-correct" class="action-btn correct-btn">
+                            <i data-lucide="check"></i> Correct
+                        </button>
                     </div>
 
                     <div class="flashcard-footer">

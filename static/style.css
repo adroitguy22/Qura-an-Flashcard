@@ -367,6 +367,72 @@ main {
     color: var(--text-secondary);
 }
 
+.score-display {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.score-correct {
+    color: var(--accent-color);
+}
+
+.score-total {
+    color: var(--text-secondary);
+}
+
+.score-separator {
+    color: var(--text-secondary);
+}
+
+.practice-actions {
+    display: flex;
+    gap: 16px;
+    padding: 16px 24px;
+    justify-content: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.action-btn {
+    flex: 1;
+    max-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+.correct-btn {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.correct-btn:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+.wrong-btn {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border-color: #ef4444;
+}
+
+.wrong-btn:hover {
+    background: #ef4444;
+    color: white;
+}
+
 .control-btn {
     background: var(--bg-color);
     border: 1px solid var(--border-color);
