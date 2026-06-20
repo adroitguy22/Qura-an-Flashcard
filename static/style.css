@@ -266,20 +266,6 @@ main {
     color: var(--text-secondary);
 }
 
-.timing-note {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px;
-    margin-bottom: 16px;
-    border-radius: 8px;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid var(--accent-color);
-    color: var(--accent-color);
-    font-size: 0.875rem;
-}
-
 /* Settings */
 .settings-card {
     background: var(--surface-color);

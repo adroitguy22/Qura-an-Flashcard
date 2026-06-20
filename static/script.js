@@ -20,7 +20,6 @@ const progressFill = document.getElementById('progress-bar-fill');
 const timingBtns = document.querySelectorAll('.timing-btn');
 const modeBtns = document.querySelectorAll('.mode-btn');
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
-const practiceTimingNote = document.getElementById('practice-timing-note');
 const practiceCards = document.querySelectorAll('.practice-card');
 
 // State
@@ -146,7 +145,6 @@ function openSettings(surah) {
     currentSurahId = surah.number;
     selectedSurahNameSpan.textContent = surah.englishName;
     isPracticeMode = false;
-    practiceTimingNote.classList.add('hidden');
     switchView(viewSettings);
 }
 
@@ -155,8 +153,6 @@ function openPractice(letterCount) {
     practiceLetterCount = letterCount;
     currentSurahId = letterCount;
     selectedSurahNameSpan.textContent = `${letterCount}-Letter Practice`;
-    practiceTimingNote.classList.remove('hidden');
-    lucide.createIcons();
     switchView(viewSettings);
 }
 
@@ -385,8 +381,7 @@ function stopFlashcardTimer() {
 function resetProgressTimer() {
     stopFlashcardTimer();
 
-    const effectiveTiming = isPracticeMode ? currentTimingS + 20 : currentTimingS;
-    const durationMs = effectiveTiming * 1000;
+    const durationMs = currentTimingS * 1000;
     progressStartTime = Date.now();
 
     progressFill.style.width = '0%';
