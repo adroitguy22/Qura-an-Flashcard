@@ -109,9 +109,6 @@ function handleScore(isCorrect) {
     scoreCorrect.textContent = scoreCorrectCount;
     scoreTotal.textContent = scoreTotalCount;
 
-    // Pause auto-advance, let user click next manually
-    pause();
-
     if (!moveToNextCard()) {
         scoreCorrect.textContent = scoreCorrectCount;
         scoreTotal.textContent = scoreTotalCount;
@@ -121,6 +118,7 @@ function handleScore(isCorrect) {
     }
 
     updateFlashcardDisplay();
+    if (isPlaying) resetProgressTimer();
 }
 
 // Navigation
